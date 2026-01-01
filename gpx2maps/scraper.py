@@ -37,6 +37,46 @@ class BaseScraper(ABC):
         with open(filepath, 'wb') as f:
             f.write(content)
         return filepath
+    
+    def _create_sample_gpx(self, route_id: str, name: str) -> str:
+        """Create a sample GPX file (for demonstration)"""
+        # Malmedy coordinates: 50.4233° N, 6.0294° E
+        return f'''<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="gpx2maps" xmlns="http://www.topografix.com/GPX/1/1">
+  <metadata>
+    <name>{name}</name>
+    <desc>DEMO SAMPLE ROUTE - Walking route near Malmedy, Belgium - FOR DEMONSTRATION ONLY</desc>
+  </metadata>
+  <trk>
+    <name>{name}</name>
+    <trkseg>
+      <trkpt lat="50.4233" lon="6.0294">
+        <ele>340</ele>
+      </trkpt>
+      <trkpt lat="50.4250" lon="6.0310">
+        <ele>345</ele>
+      </trkpt>
+      <trkpt lat="50.4270" lon="6.0330">
+        <ele>350</ele>
+      </trkpt>
+      <trkpt lat="50.4285" lon="6.0345">
+        <ele>355</ele>
+      </trkpt>
+      <trkpt lat="50.4290" lon="6.0320">
+        <ele>352</ele>
+      </trkpt>
+      <trkpt lat="50.4275" lon="6.0300">
+        <ele>348</ele>
+      </trkpt>
+      <trkpt lat="50.4250" lon="6.0285">
+        <ele>342</ele>
+      </trkpt>
+      <trkpt lat="50.4233" lon="6.0294">
+        <ele>340</ele>
+      </trkpt>
+    </trkseg>
+  </trk>
+</gpx>'''
 
 
 class RouteYouScraper(BaseScraper):
@@ -117,46 +157,6 @@ class RouteYouScraper(BaseScraper):
         gpx_content = self._create_sample_gpx(route_id, "DEMO RouteYou Route (SAMPLE)")
         
         return self._save_gpx(gpx_content.encode('utf-8'), output_filename)
-    
-    def _create_sample_gpx(self, route_id: str, name: str) -> str:
-        """Create a sample GPX file (for demonstration)"""
-        # Malmedy coordinates: 50.4233° N, 6.0294° E
-        return f'''<?xml version="1.0" encoding="UTF-8"?>
-<gpx version="1.1" creator="gpx2maps" xmlns="http://www.topografix.com/GPX/1/1">
-  <metadata>
-    <name>{name}</name>
-    <desc>DEMO SAMPLE ROUTE - Walking route near Malmedy, Belgium - FOR DEMONSTRATION ONLY</desc>
-  </metadata>
-  <trk>
-    <name>{name}</name>
-    <trkseg>
-      <trkpt lat="50.4233" lon="6.0294">
-        <ele>340</ele>
-      </trkpt>
-      <trkpt lat="50.4250" lon="6.0310">
-        <ele>345</ele>
-      </trkpt>
-      <trkpt lat="50.4270" lon="6.0330">
-        <ele>350</ele>
-      </trkpt>
-      <trkpt lat="50.4285" lon="6.0345">
-        <ele>355</ele>
-      </trkpt>
-      <trkpt lat="50.4290" lon="6.0320">
-        <ele>352</ele>
-      </trkpt>
-      <trkpt lat="50.4275" lon="6.0300">
-        <ele>348</ele>
-      </trkpt>
-      <trkpt lat="50.4250" lon="6.0285">
-        <ele>342</ele>
-      </trkpt>
-      <trkpt lat="50.4233" lon="6.0294">
-        <ele>340</ele>
-      </trkpt>
-    </trkseg>
-  </trk>
-</gpx>'''
 
 
 class MalmedyTourismScraper(BaseScraper):
@@ -232,46 +232,6 @@ class MalmedyTourismScraper(BaseScraper):
         gpx_content = self._create_sample_gpx(route_name, "DEMO Malmedy Tourism Route (SAMPLE)")
         
         return self._save_gpx(gpx_content.encode('utf-8'), output_filename)
-    
-    def _create_sample_gpx(self, route_id: str, name: str) -> str:
-        """Create a sample GPX file (for demonstration)"""
-        # Malmedy coordinates: 50.4233° N, 6.0294° E
-        return f'''<?xml version="1.0" encoding="UTF-8"?>
-<gpx version="1.1" creator="gpx2maps" xmlns="http://www.topografix.com/GPX/1/1">
-  <metadata>
-    <name>{name}</name>
-    <desc>DEMO SAMPLE ROUTE - Walking route near Malmedy, Belgium - FOR DEMONSTRATION ONLY</desc>
-  </metadata>
-  <trk>
-    <name>{name}</name>
-    <trkseg>
-      <trkpt lat="50.4233" lon="6.0294">
-        <ele>340</ele>
-      </trkpt>
-      <trkpt lat="50.4250" lon="6.0310">
-        <ele>345</ele>
-      </trkpt>
-      <trkpt lat="50.4270" lon="6.0330">
-        <ele>350</ele>
-      </trkpt>
-      <trkpt lat="50.4285" lon="6.0345">
-        <ele>355</ele>
-      </trkpt>
-      <trkpt lat="50.4290" lon="6.0320">
-        <ele>352</ele>
-      </trkpt>
-      <trkpt lat="50.4275" lon="6.0300">
-        <ele>348</ele>
-      </trkpt>
-      <trkpt lat="50.4250" lon="6.0285">
-        <ele>342</ele>
-      </trkpt>
-      <trkpt lat="50.4233" lon="6.0294">
-        <ele>340</ele>
-      </trkpt>
-    </trkseg>
-  </trk>
-</gpx>'''
 
 
 class WikilocScraper(BaseScraper):
@@ -347,46 +307,3 @@ class WikilocScraper(BaseScraper):
         gpx_content = self._create_sample_gpx(route_id, "DEMO Wikiloc Route (SAMPLE)")
         
         return self._save_gpx(gpx_content.encode('utf-8'), output_filename)
-    
-    def _create_sample_gpx(self, route_id: str, name: str) -> str:
-        """Create a sample GPX file (for demonstration)"""
-        # Malmedy area coordinates
-        return f'''<?xml version="1.0" encoding="UTF-8"?>
-<gpx version="1.1" creator="gpx2maps" xmlns="http://www.topografix.com/GPX/1/1">
-  <metadata>
-    <name>{name}</name>
-    <desc>DEMO SAMPLE ROUTE - Walking route near Malmedy, Belgium - FOR DEMONSTRATION ONLY</desc>
-  </metadata>
-  <trk>
-    <name>{name}</name>
-    <trkseg>
-      <trkpt lat="50.4300" lon="6.0400">
-        <ele>360</ele>
-      </trkpt>
-      <trkpt lat="50.4320" lon="6.0420">
-        <ele>365</ele>
-      </trkpt>
-      <trkpt lat="50.4340" lon="6.0440">
-        <ele>370</ele>
-      </trkpt>
-      <trkpt lat="50.4360" lon="6.0460">
-        <ele>375</ele>
-      </trkpt>
-      <trkpt lat="50.4380" lon="6.0440">
-        <ele>372</ele>
-      </trkpt>
-      <trkpt lat="50.4360" lon="6.0420">
-        <ele>368</ele>
-      </trkpt>
-      <trkpt lat="50.4340" lon="6.0400">
-        <ele>363</ele>
-      </trkpt>
-      <trkpt lat="50.4320" lon="6.0380">
-        <ele>358</ele>
-      </trkpt>
-      <trkpt lat="50.4300" lon="6.0400">
-        <ele>360</ele>
-      </trkpt>
-    </trkseg>
-  </trk>
-</gpx>'''

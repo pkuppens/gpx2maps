@@ -134,13 +134,14 @@ gpx2maps convert route.gpx
 
 ## Pricing and Quotas
 
-Google Maps APIs have free tiers with usage limits:
+Google Maps Platform provides a **$200 monthly credit** that is **shared across all Google Maps APIs**:
 
-- **Maps JavaScript API**: $200 free credit per month
-- **Directions API**: $200 free credit per month
-- **Static Maps API**: $200 free credit per month
+- This $200 credit applies to your total usage across Maps JavaScript API, Directions API, Static Maps API, and other Google Maps Platform services
+- Most personal and small-project use cases stay well within the free tier
+- Monitor your usage in the Google Cloud Console to track spending
+- Set up billing alerts to be notified before reaching the free tier limit
 
-Most personal use cases stay within the free tier. Monitor your usage in the Google Cloud Console.
+For detailed pricing information, visit the [Google Maps Platform Pricing](https://mapsplatform.google.com/pricing/) page.
 
 ## Troubleshooting
 
