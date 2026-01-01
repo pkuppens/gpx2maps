@@ -125,10 +125,14 @@ def download_route(args):
         parsed_url = urlparse(args.url)
         hostname = parsed_url.netloc.lower()
         
-        # Check if hostname ends with the expected domain to prevent subdomain attacks
-        if hostname.endswith('routeyou.com') or hostname == 'routeyou.com':
+        # Whitelist exact hostnames and known subdomains
+        # Check hostname is exactly the domain or a subdomain (with leading dot)
+        routeyou_valid = hostname == 'routeyou.com' or hostname == 'www.routeyou.com' or hostname.endswith('.routeyou.com')
+        wikiloc_valid = hostname == 'wikiloc.com' or hostname == 'www.wikiloc.com' or hostname.endswith('.wikiloc.com')
+        
+        if routeyou_valid:
             scraper = RouteYouScraper()
-        elif hostname.endswith('wikiloc.com') or hostname == 'wikiloc.com':
+        elif wikiloc_valid:
             scraper = WikilocScraper()
         else:
             print("❌ Unsupported URL. Please use RouteYou or Wikiloc URLs.")
