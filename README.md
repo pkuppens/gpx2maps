@@ -13,10 +13,36 @@ CLI tool to scrape GPX walking routes from popular Belgian hiking websites (Rout
 
 ## Installation
 
+### Using uv (Recommended)
+
+[uv](https://github.com/astral-sh/uv) is a fast Python package installer and resolver.
+
+```bash
+# Install uv if you haven't already
+pip install uv
+
+# Clone the repository
+git clone https://github.com/pkuppens/gpx2maps.git
+cd gpx2maps
+
+# Create virtual environment and install dependencies
+uv venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+
+# Install the package in development mode
+uv pip install -e .
+```
+
+### Using pip (Alternative)
+
 ```bash
 # Clone the repository
 git clone https://github.com/pkuppens/gpx2maps.git
 cd gpx2maps
+
+# Create virtual environment
+python -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 
 # Install dependencies
 pip install -r requirements.txt
@@ -28,7 +54,8 @@ pip install -e .
 ## Requirements
 
 - Python 3.7+
-- Google Maps API key (for conversion feature)
+- Google Maps API key (for conversion feature) - See [API_KEY_GUIDE.md](API_KEY_GUIDE.md) for setup instructions
+- uv (recommended) or pip for package management
 
 ## Usage
 
@@ -72,18 +99,20 @@ gpx2maps download --url https://www.routeyou.com/route/view/12345 --output my-ro
 Convert a GPX file to a Google Maps link:
 
 ```bash
-# Set your Google Maps API key
+# Set your Google Maps API key (see API_KEY_GUIDE.md for detailed setup)
 export GOOGLE_MAPS_API_KEY="your-api-key-here"
 
 # Convert the GPX file
 gpx2maps convert route.gpx
 
-# Or specify the API key directly
+# Or specify the API key directly (not recommended for security)
 gpx2maps convert route.gpx --api-key YOUR_API_KEY
 
 # Save the link to a file
 gpx2maps convert route.gpx --output maps-link.txt
 ```
+
+**Important**: See [API_KEY_GUIDE.md](API_KEY_GUIDE.md) for complete instructions on obtaining and safely using your Google Maps API key.
 
 ### List Downloaded Routes
 
@@ -101,19 +130,20 @@ gpx2maps list --directory /path/to/gpx/files
 
 ## Google Maps API Key
 
-To use the conversion feature, you need a Google Maps API key:
+To use the conversion feature, you need a Google Maps API key.
 
-1. Go to [Google Cloud Console](https://console.cloud.google.com/)
-2. Create a new project or select an existing one
-3. Enable the "Maps JavaScript API" and "Directions API"
-4. Create credentials (API key)
-5. Set the API key as an environment variable:
+**See [API_KEY_GUIDE.md](API_KEY_GUIDE.md) for complete step-by-step instructions** on:
+- How to create a Google Cloud project
+- How to enable required APIs
+- How to generate and restrict your API key
+- How to safely use the key with environment variables
+- Security best practices
+- Pricing and quotas
 
+Quick setup:
 ```bash
 export GOOGLE_MAPS_API_KEY="your-api-key-here"
 ```
-
-Or pass it directly with the `--api-key` flag.
 
 ## Project Structure
 

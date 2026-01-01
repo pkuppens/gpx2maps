@@ -81,6 +81,8 @@ gpx2maps download --url "https://www.routeyou.com/route/view/..."
 export GOOGLE_MAPS_API_KEY="your-key"
 gpx2maps convert route.gpx
 
+# See API_KEY_GUIDE.md for detailed instructions on obtaining and safely using your API key
+
 # List downloaded routes
 gpx2maps list
 ```
@@ -94,4 +96,4 @@ The current implementation provides sample routes for demonstration. For product
 5. Implement more sophisticated route filtering and ranking
 
 ## License
-MIT License - See LICENSE file for details
+MIT License - See the [LICENSE](LICENSE) file for full details

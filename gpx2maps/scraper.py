@@ -65,19 +65,19 @@ class RouteYouScraper(BaseScraper):
             # Sample routes around Malmedy with MDY prefix
             sample_routes = [
                 {
-                    'title': 'MDY-01: Malmedy City Walk',
+                    'title': 'MDY-01: DEMO - Malmedy City Walk (SAMPLE ROUTE)',
                     'distance': '5.2',
                     'url': f'{self.BASE_URL}/en-be/route/view/malmedy-city-walk',
                     'source': 'RouteYou'
                 },
                 {
-                    'title': 'MDY-02: High Fens Trail',
+                    'title': 'MDY-02: DEMO - High Fens Trail (SAMPLE ROUTE)',
                     'distance': '12.5',
                     'url': f'{self.BASE_URL}/en-be/route/view/high-fens-trail',
                     'source': 'RouteYou'
                 },
                 {
-                    'title': 'MDY-03: Warche Valley Loop',
+                    'title': 'MDY-03: DEMO - Warche Valley Loop (SAMPLE ROUTE)',
                     'distance': '8.3',
                     'url': f'{self.BASE_URL}/en-be/route/view/warche-valley-loop',
                     'source': 'RouteYou'
@@ -114,7 +114,7 @@ class RouteYouScraper(BaseScraper):
             output_filename = f"routeyou_{route_id}.gpx"
         
         # Create a basic GPX file structure
-        gpx_content = self._create_sample_gpx(route_id, "RouteYou Route")
+        gpx_content = self._create_sample_gpx(route_id, "DEMO RouteYou Route (SAMPLE)")
         
         return self._save_gpx(gpx_content.encode('utf-8'), output_filename)
     
@@ -125,7 +125,122 @@ class RouteYouScraper(BaseScraper):
 <gpx version="1.1" creator="gpx2maps" xmlns="http://www.topografix.com/GPX/1/1">
   <metadata>
     <name>{name}</name>
-    <desc>Walking route near Malmedy, Belgium</desc>
+    <desc>DEMO SAMPLE ROUTE - Walking route near Malmedy, Belgium - FOR DEMONSTRATION ONLY</desc>
+  </metadata>
+  <trk>
+    <name>{name}</name>
+    <trkseg>
+      <trkpt lat="50.4233" lon="6.0294">
+        <ele>340</ele>
+      </trkpt>
+      <trkpt lat="50.4250" lon="6.0310">
+        <ele>345</ele>
+      </trkpt>
+      <trkpt lat="50.4270" lon="6.0330">
+        <ele>350</ele>
+      </trkpt>
+      <trkpt lat="50.4285" lon="6.0345">
+        <ele>355</ele>
+      </trkpt>
+      <trkpt lat="50.4290" lon="6.0320">
+        <ele>352</ele>
+      </trkpt>
+      <trkpt lat="50.4275" lon="6.0300">
+        <ele>348</ele>
+      </trkpt>
+      <trkpt lat="50.4250" lon="6.0285">
+        <ele>342</ele>
+      </trkpt>
+      <trkpt lat="50.4233" lon="6.0294">
+        <ele>340</ele>
+      </trkpt>
+    </trkseg>
+  </trk>
+</gpx>'''
+
+
+class MalmedyTourismScraper(BaseScraper):
+    """Scraper for Malmedy Tourism website"""
+    
+    BASE_URL = 'https://www.malmedy-tourisme.be'
+    
+    def search(self, location: str, distance_km: float, prefix: str) -> List[Dict]:
+        """
+        Search for routes on Malmedy Tourism website
+        
+        NOTE: This is a sample implementation that returns predefined routes
+        for demonstration purposes. For production use, implement actual web
+        scraping of https://www.malmedy-tourisme.be/en/type-a-pied/signposted-walks/
+        """
+        routes = []
+        
+        try:
+            # For quick implementation, we'll provide some known routes from Malmedy Tourism
+            print(f"   Note: Using sample Malmedy Tourism routes for {location}")
+            
+            # Sample routes from Malmedy Tourism signposted walks
+            sample_routes = [
+                {
+                    'title': 'MDY-07: DEMO - Malmedy Heritage Circuit (SAMPLE ROUTE)',
+                    'distance': '4.5',
+                    'url': f'{self.BASE_URL}/en/type-a-pied/signposted-walks/heritage-circuit',
+                    'source': 'Malmedy Tourism'
+                },
+                {
+                    'title': 'MDY-08: DEMO - Robertville Lake Trail (SAMPLE ROUTE)',
+                    'distance': '11.0',
+                    'url': f'{self.BASE_URL}/en/type-a-pied/signposted-walks/robertville-lake',
+                    'source': 'Malmedy Tourism'
+                },
+                {
+                    'title': 'MDY-09: DEMO - Beverce Valley Walk (SAMPLE ROUTE)',
+                    'distance': '7.2',
+                    'url': f'{self.BASE_URL}/en/type-a-pied/signposted-walks/beverce-valley',
+                    'source': 'Malmedy Tourism'
+                },
+            ]
+            
+            # Filter by prefix and distance
+            for route in sample_routes:
+                if prefix and not route['title'].startswith(prefix):
+                    continue
+                try:
+                    if float(route['distance']) <= distance_km:
+                        routes.append(route)
+                except ValueError:
+                    routes.append(route)
+            
+        except Exception as e:
+            print(f"   Warning: Malmedy Tourism search error: {e}")
+        
+        return routes
+    
+    def download(self, url: str, output_filename: Optional[str] = None) -> str:
+        """Download GPX file from Malmedy Tourism"""
+        
+        # Extract route name from URL
+        route_name_match = re.search(r'/signposted-walks/([^/]+)', url)
+        if not route_name_match:
+            raise ValueError("Could not extract route name from URL")
+        
+        route_name = route_name_match.group(1)
+        
+        if not output_filename:
+            output_filename = f"malmedy_{route_name}.gpx"
+        
+        # Create a basic GPX file structure
+        gpx_content = self._create_sample_gpx(route_name, "DEMO Malmedy Tourism Route (SAMPLE)")
+        
+        return self._save_gpx(gpx_content.encode('utf-8'), output_filename)
+    
+    def _create_sample_gpx(self, route_id: str, name: str) -> str:
+        """Create a sample GPX file (for demonstration)"""
+        # Malmedy coordinates: 50.4233° N, 6.0294° E
+        return f'''<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="gpx2maps" xmlns="http://www.topografix.com/GPX/1/1">
+  <metadata>
+    <name>{name}</name>
+    <desc>DEMO SAMPLE ROUTE - Walking route near Malmedy, Belgium - FOR DEMONSTRATION ONLY</desc>
   </metadata>
   <trk>
     <name>{name}</name>
@@ -181,19 +296,19 @@ class WikilocScraper(BaseScraper):
             # Sample routes around Malmedy with MDY prefix
             sample_routes = [
                 {
-                    'title': 'MDY-04: Bayehon Waterfall Walk',
+                    'title': 'MDY-04: DEMO - Bayehon Waterfall Walk (SAMPLE ROUTE)',
                     'distance': '6.8',
                     'url': f'{self.BASE_URL}/wikiloc/view.do?id=bayehon-waterfall',
                     'source': 'Wikiloc'
                 },
                 {
-                    'title': 'MDY-05: Signal de Botrange',
+                    'title': 'MDY-05: DEMO - Signal de Botrange (SAMPLE ROUTE)',
                     'distance': '9.2',
                     'url': f'{self.BASE_URL}/wikiloc/view.do?id=signal-botrange',
                     'source': 'Wikiloc'
                 },
                 {
-                    'title': 'MDY-06: Reinhardstein Castle Route',
+                    'title': 'MDY-06: DEMO - Reinhardstein Castle Route (SAMPLE ROUTE)',
                     'distance': '7.5',
                     'url': f'{self.BASE_URL}/wikiloc/view.do?id=reinhardstein-castle',
                     'source': 'Wikiloc'
@@ -229,7 +344,7 @@ class WikilocScraper(BaseScraper):
             output_filename = f"wikiloc_{route_id}.gpx"
         
         # Create a basic GPX file structure
-        gpx_content = self._create_sample_gpx(route_id, "Wikiloc Route")
+        gpx_content = self._create_sample_gpx(route_id, "DEMO Wikiloc Route (SAMPLE)")
         
         return self._save_gpx(gpx_content.encode('utf-8'), output_filename)
     
@@ -240,7 +355,7 @@ class WikilocScraper(BaseScraper):
 <gpx version="1.1" creator="gpx2maps" xmlns="http://www.topografix.com/GPX/1/1">
   <metadata>
     <name>{name}</name>
-    <desc>Walking route near Malmedy, Belgium</desc>
+    <desc>DEMO SAMPLE ROUTE - Walking route near Malmedy, Belgium - FOR DEMONSTRATION ONLY</desc>
   </metadata>
   <trk>
     <name>{name}</name>

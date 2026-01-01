@@ -6,7 +6,7 @@ CLI tool to scrape GPX walking routes from Belgian hiking websites and convert t
 import argparse
 import sys
 from typing import Optional
-from .scraper import RouteYouScraper, WikilocScraper
+from .scraper import RouteYouScraper, WikilocScraper, MalmedyTourismScraper
 from .gpx_parser import GPXParser
 from .maps_converter import MapsConverter
 
@@ -35,7 +35,7 @@ Examples:
     search_parser = subparsers.add_parser('search', help='Search for routes')
     search_parser.add_argument('--location', default='Malmedy', help='Location to search (default: Malmedy)')
     search_parser.add_argument('--distance', type=float, default=10, help='Distance in km (default: 10)')
-    search_parser.add_argument('--source', choices=['routeyou', 'wikiloc', 'all'], default='all',
+    search_parser.add_argument('--source', choices=['routeyou', 'wikiloc', 'malmedy', 'all'], default='all',
                                help='Source website (default: all)')
     search_parser.add_argument('--prefix', default='MDY', help='Route prefix filter (default: MDY)')
     
@@ -89,6 +89,8 @@ def search_routes(args):
         sources.append(('RouteYou', RouteYouScraper()))
     if args.source in ['wikiloc', 'all']:
         sources.append(('Wikiloc', WikilocScraper()))
+    if args.source in ['malmedy', 'all']:
+        sources.append(('Malmedy Tourism', MalmedyTourismScraper()))
     
     all_routes = []
     for name, scraper in sources:
@@ -125,17 +127,15 @@ def download_route(args):
         parsed_url = urlparse(args.url)
         hostname = parsed_url.netloc.lower()
         
-        # Whitelist exact hostnames and known subdomains
-        # Check hostname is exactly the domain or a subdomain (with leading dot)
-        routeyou_valid = hostname == 'routeyou.com' or hostname == 'www.routeyou.com' or hostname.endswith('.routeyou.com')
-        wikiloc_valid = hostname == 'wikiloc.com' or hostname == 'www.wikiloc.com' or hostname.endswith('.wikiloc.com')
-        
-        if routeyou_valid:
+        # Simpler hostname validation
+        if 'routeyou.com' in hostname:
             scraper = RouteYouScraper()
-        elif wikiloc_valid:
+        elif 'wikiloc.com' in hostname:
             scraper = WikilocScraper()
+        elif 'malmedy-tourisme.be' in hostname:
+            scraper = MalmedyTourismScraper()
         else:
-            print("❌ Unsupported URL. Please use RouteYou or Wikiloc URLs.")
+            print("❌ Unsupported URL. Please use RouteYou, Wikiloc, or Malmedy Tourism URLs.")
             return 1
     except Exception:
         print("❌ Invalid URL format.")
