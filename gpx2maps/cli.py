@@ -116,15 +116,25 @@ def search_routes(args):
 
 def download_route(args):
     """Download a GPX file from URL"""
+    from urllib.parse import urlparse
+    
     print(f"⬇️  Downloading route from {args.url}...")
     
-    # Determine scraper based on URL
-    if 'routeyou.com' in args.url:
-        scraper = RouteYouScraper()
-    elif 'wikiloc.com' in args.url:
-        scraper = WikilocScraper()
-    else:
-        print("❌ Unsupported URL. Please use RouteYou or Wikiloc URLs.")
+    # Determine scraper based on URL hostname
+    try:
+        parsed_url = urlparse(args.url)
+        hostname = parsed_url.netloc.lower()
+        
+        # Check if hostname ends with the expected domain to prevent subdomain attacks
+        if hostname.endswith('routeyou.com') or hostname == 'routeyou.com':
+            scraper = RouteYouScraper()
+        elif hostname.endswith('wikiloc.com') or hostname == 'wikiloc.com':
+            scraper = WikilocScraper()
+        else:
+            print("❌ Unsupported URL. Please use RouteYou or Wikiloc URLs.")
+            return 1
+    except Exception:
+        print("❌ Invalid URL format.")
         return 1
     
     try:
