@@ -13,7 +13,14 @@ class MapsConverter:
     def __init__(self, api_key: str):
         """Initialize converter with Google Maps API key"""
         self.api_key = api_key
-        self.client = googlemaps.Client(key=api_key)
+        # Only initialize client if it's not a demo key
+        self.client = None
+        if api_key and api_key != "DEMO_API_KEY":
+            try:
+                self.client = googlemaps.Client(key=api_key)
+            except Exception:
+                # If client initialization fails, we'll still generate URLs
+                pass
     
     def convert(self, route_data: Dict) -> str:
         """
