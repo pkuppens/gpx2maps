@@ -47,7 +47,7 @@ Examples:
     # Convert command
     convert_parser = subparsers.add_parser('convert', help='Convert GPX to Google Maps')
     convert_parser.add_argument('gpx_file', help='Path to GPX file')
-    convert_parser.add_argument('--api-key', help='Google Maps API key (or set GOOGLE_MAPS_API_KEY env var)')
+    convert_parser.add_argument('--api-key', help='Google Maps API key (RECOMMENDED: use GOOGLE_MAPS_API_KEY env var instead for security)')
     convert_parser.add_argument('--output', help='Output file for the Google Maps link')
     
     # List command
@@ -142,7 +142,9 @@ def convert_to_maps(args):
     
     api_key = args.api_key or os.environ.get('GOOGLE_MAPS_API_KEY')
     if not api_key:
-        print("❌ Error: Google Maps API key required. Use --api-key or set GOOGLE_MAPS_API_KEY env var")
+        print("❌ Error: Google Maps API key required.")
+        print("   RECOMMENDED: Set GOOGLE_MAPS_API_KEY environment variable")
+        print("   Alternative: Use --api-key flag (less secure)")
         return 1
     
     print(f"📂 Parsing GPX file: {args.gpx_file}...")

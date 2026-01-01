@@ -10,6 +10,11 @@ from urllib.parse import urlencode
 class MapsConverter:
     """Convert GPX route data to Google Maps"""
     
+    # Google Maps URL data parameter for walking mode
+    # Format: /@lat,lon,zoom/data=!4m2!4m1!3e2
+    # where 3e2 indicates walking/pedestrian mode
+    WALKING_MODE_PARAM = "!4m2!4m1!3e2"
+    
     def __init__(self, api_key: str):
         """Initialize converter with Google Maps API key"""
         self.api_key = api_key
@@ -86,10 +91,10 @@ class MapsConverter:
         url = f"{base_url}/{'/'.join(path_segments)}"
         
         # Add data parameter for walking mode
-        # &data=!4m2!4m1!3e2 means walking mode
-        url += "/@{},{},12z/data=!4m2!4m1!3e2".format(
+        url += "/@{},{},12z/data={}".format(
             points[0][0],  # center latitude
             points[0][1],  # center longitude
+            self.WALKING_MODE_PARAM
         )
         
         return url

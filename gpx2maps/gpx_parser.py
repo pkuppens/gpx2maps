@@ -17,7 +17,7 @@ class GPXParser:
     
     def parse(self) -> Dict:
         """Parse GPX file and return route data"""
-        with open(self.gpx_file, 'r') as f:
+        with open(self.gpx_file, 'r', encoding='utf-8') as f:
             self.gpx = gpxpy.parse(f)
         
         # Extract route data
