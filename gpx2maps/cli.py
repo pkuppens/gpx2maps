@@ -9,6 +9,7 @@ from typing import Optional
 from .scraper import RouteYouScraper, WikilocScraper, MalmedyTourismScraper
 from .gpx_parser import GPXParser
 from .maps_converter import MapsConverter
+from .qr_generator import create_route_qr_code
 
 
 def main():
@@ -50,6 +51,11 @@ Examples:
     convert_parser.add_argument('--api-key', help='Google Maps API key (RECOMMENDED: use GOOGLE_MAPS_API_KEY env var instead for security)')
     convert_parser.add_argument('--output', help='Output file for the Google Maps link')
     
+    # QR code command
+    qr_parser = subparsers.add_parser('qr', help='Generate QR code for GPX route (no API key required)')
+    qr_parser.add_argument('gpx_file', help='Path to GPX file')
+    qr_parser.add_argument('--output', help='Output QR code image file (default: auto-generated)')
+    
     # List command
     list_parser = subparsers.add_parser('list', help='List downloaded GPX files')
     list_parser.add_argument('--directory', default='gpx_files', help='Directory containing GPX files')
@@ -67,6 +73,8 @@ Examples:
             return download_route(args)
         elif args.command == 'convert':
             return convert_to_maps(args)
+        elif args.command == 'qr':
+            return generate_qr_code_cmd(args)
         elif args.command == 'list':
             return list_routes(args)
     except KeyboardInterrupt:
@@ -186,6 +194,32 @@ def convert_to_maps(args):
         return 0
     except Exception as e:
         print(f"❌ Error: {e}")
+        return 1
+
+
+def generate_qr_code_cmd(args):
+    """Generate QR code for GPX route"""
+    print(f"Parsing GPX file: {args.gpx_file}...")
+    
+    try:
+        parser = GPXParser(args.gpx_file)
+        route_data = parser.parse()
+        
+        print(f"   Route: {route_data['name']}")
+        print(f"   Points: {len(route_data['points'])}")
+        print(f"   Distance: {route_data['distance']:.2f} km")
+        
+        print(f"\nGenerating Google Maps URL (no API key required)...")
+        maps_url, qr_path = create_route_qr_code(route_data, args.output)
+        
+        print(f"\nGoogle Maps URL:")
+        print(f"   {maps_url}")
+        print(f"\nQR Code saved to: {qr_path}")
+        print(f"\nScan this QR code with your Android phone to open the route in Google Maps!")
+        
+        return 0
+    except Exception as e:
+        print(f"Error: {e}", file=sys.stderr)
         return 1
 
 
