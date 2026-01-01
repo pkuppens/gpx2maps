@@ -15,6 +15,9 @@ class MapsConverter:
     # where 3e2 indicates walking/pedestrian mode
     WALKING_MODE_PARAM = "!4m2!4m1!3e2"
     
+    # Default zoom level for route display
+    DEFAULT_ZOOM = 12
+    
     def __init__(self, api_key: str):
         """Initialize converter with Google Maps API key"""
         self.api_key = api_key
@@ -91,9 +94,10 @@ class MapsConverter:
         url = f"{base_url}/{'/'.join(path_segments)}"
         
         # Add data parameter for walking mode
-        url += "/@{},{},12z/data={}".format(
+        url += "/@{},{},{}z/data={}".format(
             points[0][0],  # center latitude
             points[0][1],  # center longitude
+            self.DEFAULT_ZOOM,
             self.WALKING_MODE_PARAM
         )
         

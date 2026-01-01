@@ -45,7 +45,13 @@ class RouteYouScraper(BaseScraper):
     BASE_URL = 'https://www.routeyou.com'
     
     def search(self, location: str, distance_km: float, prefix: str) -> List[Dict]:
-        """Search for routes on RouteYou"""
+        """
+        Search for routes on RouteYou
+        
+        NOTE: This is a sample implementation that returns predefined routes
+        for demonstration purposes. For production use, implement actual web
+        scraping with proper HTTP requests and HTML parsing.
+        """
         routes = []
         
         # RouteYou search URL format for walking routes near Malmedy
@@ -159,7 +165,13 @@ class WikilocScraper(BaseScraper):
     BASE_URL = 'https://www.wikiloc.com'
     
     def search(self, location: str, distance_km: float, prefix: str) -> List[Dict]:
-        """Search for routes on Wikiloc"""
+        """
+        Search for routes on Wikiloc
+        
+        NOTE: This is a sample implementation that returns predefined routes
+        for demonstration purposes. For production use, implement actual web
+        scraping with proper HTTP requests and HTML parsing.
+        """
         routes = []
         
         try:
